@@ -21,16 +21,20 @@ export class Zarinpal {
   private sandbox: boolean;
   private axios: Axios;
 
+
+  static CreateInstance(params: InitParams): Zarinpal {
+    if (params.merchantId.length !== config.merchantIDLength) {
+      throw new Error('The MerchantID must be ' + config.merchantIDLength + ' Characters.')
+    }
+    return new Zarinpal(params);
+  }
+
   /**
    * Constructor for Zarinpal class.
    * @param {InitParams} params
    */
-  Zarinpal(params: InitParams) {
-    if (params.merchantId.length === config.merchantIDLength) {
-      this.merchant = params.merchantId;
-    } else {
-      throw new Error('The MerchantID must be ' + config.merchantIDLength + ' Characters.')
-    }
+  constructor(params: InitParams) {
+    this.merchant = params.merchantId;
     this.sandbox = params.sandbox || false;
 
     this.axios = axios.create({
@@ -49,11 +53,11 @@ export class Zarinpal {
    * @returns Promise<PaymentResponse>
    */
   async requestPayment(request: PaymentRequest): Promise<PaymentResponse> {
-    if (!request.callbackURL && !this.callbackURL) {
+    if (!request.callback_url && !this.callbackURL) {
       throw new Error('No Callback URL Provided')
     }
-    if (!request.callbackURL) {
-      request.callbackURL = this.callbackURL
+    if (!request.callback_url) {
+      request.callback_url = this.callbackURL
     }
     if (!request.currency) {
       request.currency = 'IRT'

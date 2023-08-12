@@ -33,7 +33,7 @@ const initParams: InitParams = {
     callbackURL: 'https://your-domain/verify',
     sandbox: false,
   }
-const zarinpal = Zarinpal(initParams);
+const zarinpal = Zarinpal.CreateInstance(initParams);
 ```
 
 ## 📢 API

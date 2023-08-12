@@ -1,7 +1,7 @@
 'use strict';
 
 var should           = require('chai').should();
-var ZarinpalCheckout = require('../index');
+var ZarinpalCheckout = require('../src');
 
 describe('ZarinpalCheckout', function() {
 	it('should exist', function() {

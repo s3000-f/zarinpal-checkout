@@ -7,9 +7,11 @@
     "url": "https://github.com/s3000-f/zarinpal-checkout"
   },
   "scripts": {
+    "build": "tsc",
     "test": "NODE_ENV=test mocha"
   },
-  "main": "index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "zarinpal",
     "nodejs",
@@ -18,9 +20,7 @@
   "author": "Soroush Fathi <soroushFathi3000@gmail.com> (https://github.com/s3000-f)",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^20.4.10",
-    "axios": "^1.4.0",
-    "typescript": "^5.1.6"
+    "axios": "^1.4.0"
   },
   "bugs": {
     "url": "https://github.com/s3000-f/zarinpal-checkout/issues"
@@ -28,6 +28,8 @@
   "homepage": "https://github.com/s3000-f/zarinpal-checkout",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.5.0"
+    "mocha": "^2.5.0",
+    "typescript": "^5.1.6",
+    "@types/node": "^20.4.10"
   }
 }
