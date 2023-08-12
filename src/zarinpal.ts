@@ -35,6 +35,7 @@ export class Zarinpal {
    */
   constructor(params: InitParams) {
     this.merchant = params.merchantId;
+    this.callbackURL = params.callbackURL;
     this.sandbox = params.sandbox || false;
 
     this.axios = axios.create({
@@ -62,17 +63,22 @@ export class Zarinpal {
     if (!request.currency) {
       request.currency = 'IRT'
     }
-    const response = await this.axios.post(config.API.PAYMENT, {...request, merchant_id: this.merchant})
+    const response = await this.axios.post(config.API.PAYMENT, {...request, merchant_id: this.merchant}).catch(err => {
+      const errors = err.response?.data?.errors
+      if (errors)
+        throw new Error(JSON.stringify(errors))
+      else throw err;
+    })
     if (response.status === 200 && response.data.data.code === 100) {
-
+      console.log(response.data, response.data.data, response.data.data.authority)
       return {
         ...response.data.data,
-        url: config.PG(this.sandbox) + response.data.data.Authority,
+        url: config.PG(this.sandbox) + response.data.data.authority,
       } as PaymentResponse
     } else {
       const errors = response.data?.errors
       if (errors) {
-        throw new Error(errors)
+        throw new Error(JSON.stringify(errors))
       } else {
         throw new Error('There was an error requesting payment')
       }
@@ -87,14 +93,19 @@ export class Zarinpal {
    * @throws Error
    */
   async verifyPayment(request: PaymentVerification): Promise<VerificationResponse> {
-    const response = await this.axios.post(config.API.VERIFICATION, {...request, merchant_id: this.merchant})
+    const response = await this.axios.post(config.API.VERIFICATION, {...request, merchant_id: this.merchant}).catch(err => {
+      const errors = err.response?.data?.errors
+      if (errors)
+        throw new Error(JSON.stringify(errors))
+      else throw err;
+    })
     if (response.status === 200 && response.data.data.code === 100) {
 
       return response.data.data as VerificationResponse
     } else {
       const errors = response.data?.errors
       if (errors) {
-        throw new Error(errors)
+        throw new Error(JSON.stringify(errors))
       } else {
         throw new Error('There was an error requesting payment')
       }

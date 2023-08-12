@@ -1,7 +1,6 @@
 # Zarinpal Checkout V4
 
 # Forked From: [Zarinpal Checkout](https://github.com/siamak/zarinpal-checkout)
-
 * Easy to Use
 * Promises/A+ Compatible
 * Sandboxing
@@ -21,6 +20,7 @@ import Zarinpal from 'zarinpal-checkout-v4';
 ```
 
 Then create an instance:
+### Sandbox is currently unavailable on Zarinpal's side
 ```javascript
 /**
  * Create Zarinpal

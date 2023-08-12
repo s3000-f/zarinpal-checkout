@@ -1,9 +1,9 @@
 const config = {
 	https: 'https://api.zarinpal.com/pg/v4/payment/',
-	sandbox: 'https://api.zarinpal.com/pg/v4/payment/',
+	sandbox: 'https://sandbox.zarinpal.com/pg/v4/payment/',
 	merchantIDLength: 36,
 	API: {
-		PAYMENT: 'payment.json',
+		PAYMENT: 'request.json',
 		VERIFICATION: 'verify.json',
 		UNVERIFIED: 'unVerified.json'
 	},
