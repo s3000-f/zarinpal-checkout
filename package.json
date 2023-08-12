@@ -1,29 +1,31 @@
 {
-  "name": "zarinpal-checkout",
-  "version": "0.2.7",
-  "description": "Simple implementation of ZarinPal nodejs api so you can quickly start using API.",
+  "name": "zarinpal-checkout-v4",
+  "version": "1.0.0",
+  "description": "Simple typescript implementation of ZarinPal nodejs api so you can quickly start using API.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/siamakmokhtari/zarinpal-checkout"
+    "url": "https://github.com/s3000-f/zarinpal-checkout"
   },
   "scripts": {
     "test": "NODE_ENV=test mocha"
   },
-  "main": "index.js",
+  "main": "index.ts",
   "keywords": [
     "zarinpal",
     "nodejs",
     "checkout"
   ],
-  "author": "Siamak Mokhtari <s.mokhtari75@gmail.com> (http://siamak.us)",
+  "author": "Soroush Fathi <soroushFathi3000@gmail.com> (https://github.com/s3000-f)",
   "license": "MIT",
   "dependencies": {
-    "request-promise": "^3.0.0"
+    "@types/node": "^20.4.10",
+    "axios": "^1.4.0",
+    "typescript": "^5.1.6"
   },
   "bugs": {
-    "url": "https://github.com/siamakmokhtari/zarinpal-checkout/issues"
+    "url": "https://github.com/s3000-f/zarinpal-checkout/issues"
   },
-  "homepage": "https://github.com/siamakmokhtari/zarinpal-checkout",
+  "homepage": "https://github.com/s3000-f/zarinpal-checkout",
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^2.5.0"

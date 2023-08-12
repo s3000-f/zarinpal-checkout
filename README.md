@@ -1,5 +1,7 @@
-# ZarinPal Checkout:  [![Build Status](https://travis-ci.org/siamak/zarinpal-checkout.svg?branch=master)](https://travis-ci.org/siamak/zarinpal-checkout)
-[ZarinPal Checkout](https://www.zarinpal.com/) implementation in Node.JS
+# Zarinpal Checkout V4
+
+# Forked From: [Zarinpal Checkout](https://github.com/siamak/zarinpal-checkout)
+
 * Easy to Use
 * Promises/A+ Compatible
 * Sandboxing
@@ -7,95 +9,86 @@
 ## 🕹 Usage
 Install the package from `npm` or `yarn` and require it in your Node project:
 ```bash
-npm install zarinpal-checkout
+npm install zarinpal-checkout-v4
 # or
-yarn add zarinpal-checkout
+yarn add zarinpal-checkout-v4
 ```
 
 ```javascript
-const ZarinpalCheckout = require('zarinpal-checkout');
+const Zarinpal = require('zarinpal-checkout-v4');
 // or
-import ZarinPalCheckout from 'zarinpal-checkout';
+import Zarinpal from 'zarinpal-checkout-v4';
 ```
 
 Then create an instance:
 ```javascript
 /**
- * Create ZarinPal
- * @param {String} `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` [Merchant ID]
- * @param {Boolean} false [toggle `Sandbox` mode]
+ * Create Zarinpal
+ * callbackURL and Sandbox are both optional.
+ * if callbackURL is not provided here, 
+ * one must be provided upon requesting payment
  */
-const zarinpal = ZarinpalCheckout.create('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', false);
+const initParams: InitParams = {
+    merchantId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    callbackURL: 'https://your-domain/verify',
+    sandbox: false,
+  }
+const zarinpal = Zarinpal(initParams);
 ```
 
 ## 📢 API
 ### ★ Payment Request:
 ```javascript
 /**
- * PaymentRequest [module]
- * @return {String} URL [Payement Authority]
+ * callback_url, currency, email, mobile and order_id are optional
+ * if no callback_url given, the url defaults to one used with constructor
+ * if no currency given, the currency defaults to IRT
  */
-zarinpal.PaymentRequest({
-  Amount: '1000', // In Tomans
-  CallbackURL: 'https://your-safe-api/example/zarinpal/validate',
-  Description: 'A Payment from Node.JS',
-  Email: 'hi@siamak.work',
-  Mobile: '09120000000'
-}).then(response => {
-  if (response.status === 100) {
-    console.log(response.url);
-  }
-}).catch(err => {
-  console.error(err);
-});
+const request: PaymentRequest = {
+  amount: 1000,
+  callback_url: 'https://your-domain.com/verify',
+  description: 'Test Payment',
+  currency: 'IRT',
+  metadata: {
+    email: 'a@b.com',
+    mobile: '09999999999',
+    order_id: '1234',
+  } as PaymentMetadata,
+}
+/**
+ * requestPayment
+ * @param {PaymentRequest} request
+ * @returns Promise<PaymentResponse>
+ */
+const response = await zarinpal.requestPayment(request)
 ```
 
 ### ★ Payment Verification:
 ```javascript
-zarinpal.PaymentVerification({
-  Amount: '1000', // In Tomans
-  Authority: '000000000000000000000000000000000000',
-}).then(response => {
-  if (response.status !== 100) {
-    console.log('Empty!');
-  } else {
-    console.log(`Verified! Ref ID: ${response.RefID}`);
-  }
-}).catch(err => {
-  console.error(err);
-});
+const request: PaymentVerification = {
+  amount: 1000,
+  authority: '000000000000000000000000000000000000',
+}
+/**
+ * Verify Payment from Authority.
+ * @param  {PaymentVerification} request
+ * @returns Promise<VerificationResponse>
+ */
+const response = await zarinpal.verifyPayment(request)
 ```
 ### ★ Unverified Transactions:
 ```javascript
-zarinpal.UnverifiedTransactions().then(response =>
-  if (response.status === 100) {
-    console.log(response.authorities);
-  }
-}).catch(err => {
-  console.error(err);
-});
+/**
+ * Get Unverified Transactions
+ * @returns Promise<UnverifiedResponse>
+ */
+const response = await zarinpal.UnverifiedTransactions()
 ```
-### ★ Refresh Authority:
-```javascript
-zarinpal.RefreshAuthority({
-  Authority: '000000000000000000000000000000000000',
-  Expire: '1800'
-}).then(response => {
-  if (response.status === 100) {
-    console.log(response.status);
-  }
-}).catch(err => {
-  console.error(err);
-});
-```
-### 🍦🍦🍦 [DEMO: ZarinPal Express checkout](https://github.com/siamakmokhtari/zarinpal-express-checkout).
-
 ---
 
 ## 🔆 To-Do
 - [ ] Add Extra mode for API.
-- [x] Promises/A+
-- [x] Unit testing `mocha`.
+- [ ] Unit testing `mocha`.
 
 ## 👋 Contribution
 Contributions are welcome. Please submit PRs or just file an issue if you see something broken or in
@@ -107,7 +100,7 @@ This software is released under the [MIT License](http://siamak.mit-license.org)
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015-2017 Siamak Mokhtari s.mokhtari75@gmail.com
+Copyright (c) 2023 Soroush Fathi soroushfathi3000@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
