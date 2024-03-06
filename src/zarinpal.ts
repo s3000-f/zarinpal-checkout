@@ -69,7 +69,7 @@ export class Zarinpal {
         throw new Error(JSON.stringify(errors))
       else throw err;
     })
-    if (response.status === 200 && response.data.data.code >= 100) {
+    if (response.status === 200 && response.data.data.code === 100) {
       console.log(response.data, response.data.data, response.data.data.authority)
       return {
         ...response.data.data,
@@ -100,15 +100,16 @@ export class Zarinpal {
         throw new Error(JSON.stringify(errors))
       else throw err;
     })
-    if (response.status === 200 && response.data.data.code === 100) {
+    if (response.status === 200 && response.data.data.code >= 100) {
 
       return response.data.data as VerificationResponse
     } else {
-      const errors = response.data?.errors
-      if (errors) {
-        throw new Error(JSON.stringify(errors))
+      if (response && response.data && response.data.errors) {
+        throw new Error(JSON.stringify(response.data.errors))
+      } else if (response && response.data && response.data.data) {
+        throw new Error(JSON.stringify(response.data.data))
       } else {
-        throw new Error('There was an error requesting payment')
+        throw new Error('Unknown Error Occurred')
       }
     }
   }
