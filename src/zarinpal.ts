@@ -122,7 +122,7 @@ export class Zarinpal {
    */
   async unverifiedTransactions(): Promise<UnverifiedResponse> {
     const response = await this.axios.post(config.API.UNVERIFIED, {merchant_id: this.merchant})
-    if (response.status === 200 && response.data.data.code === 100) {
+    if (response.status === 200 && response.data.data.code === '100') {
 
       return response.data.data as UnverifiedResponse
     } else {

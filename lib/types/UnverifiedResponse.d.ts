@@ -1,6 +1,6 @@
 import { UnverifiedItem } from './UnverifiedItem';
 export type UnverifiedResponse = {
-    code: number;
+    code: string;
     message: string;
     authorities: UnverifiedItem[];
 };
